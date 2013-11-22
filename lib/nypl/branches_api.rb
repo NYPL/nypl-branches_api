@@ -10,18 +10,29 @@ module Nypl
       helpers Sinatra::Jsonp
 
       get '/' do
-        response = Nypl::BranchesApi::Site.all.map { |s|
-          { 
-            :id => s[:sid],
-            :name => s[:name],
-            :address => s[:address],
-            :lat => s[:latitude],
-            :long => s[:longitude]
-          }
+        locations = Nypl::BranchesApi::Site.all 
+        
+        response = {
+          :branches => locations.map { |s|
+            s.as_resource
+          },
+          :box => bounding_box(locations)
         }
 
         jsonp response
       end
+
+      def bounding_box(c)
+        lat = c.map{|o| o.latitude}
+        long = c.map{|o| o.longitude}
+        {
+          :north => lat.max,
+          :south => lat.min,
+          :east  => long.max,
+          :west  => long.min
+        }
+      end
+
     end
   end
 end
