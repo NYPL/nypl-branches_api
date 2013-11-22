@@ -1,6 +1,7 @@
 require "sequel"
 require "sinatra"
 require "sinatra/jsonp"
+require "nypl/branches_api/location"
 require "nypl/branches_api/site"
 require "nypl/branches_api/version"
 
@@ -20,6 +21,16 @@ module Nypl
         }
 
         jsonp response
+      end
+
+      get %r{/([A-Z]+)} do
+        abbrev = params[:captures].first
+        branch = Nypl::BranchesApi::Location.
+          find(:symbol => params[:captures].first)
+        if branch.nil?
+          raise Sinatra::NotFound
+        end
+        jsonp Nypl::BranchesApi::Site[branch.sid].as_resource
       end
 
       def bounding_box(c)

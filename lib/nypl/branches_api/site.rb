@@ -1,10 +1,10 @@
 module Nypl
   module BranchesApi
     class Site < Sequel::Model(:locations_spaces)
-
+      one_to_one :location, :key => :sid, :class => Location
       def as_resource
         { 
-          :id => sid,
+          :abbrev => location.symbol,
           :name => name,
           :address => address,
           :city => city,
