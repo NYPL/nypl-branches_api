@@ -23,7 +23,7 @@ module Nypl
         jsonp response
       end
 
-      get %r{/([A-Z]+)} do
+      get %r{/([A-Z]+)$} do
         abbrev = params[:captures].first
         branch = Nypl::BranchesApi::Location.
           find(:symbol => params[:captures].first)
@@ -31,6 +31,22 @@ module Nypl
           raise Sinatra::NotFound
         end
         jsonp Nypl::BranchesApi::Site[branch.sid].as_resource
+      end
+
+      get %r{/(([A-Z]+,)+[A-Z]+)$} do
+        x = {:vector => params[:captures].first.split(',')}
+        
+        sids = Nypl::BranchesApi::Location.
+          where(:symbol => params[:captures].first.split(',')).all.
+          map{ |s| s.sid }
+        branches = Nypl::BranchesApi::Site.where(:sid => sids)
+        response = {
+          :branches => branches.map { |s|
+            s.as_resource          
+          },
+          :box => bounding_box(branches)
+        }
+        jsonp response
       end
 
       def bounding_box(c)

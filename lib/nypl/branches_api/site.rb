@@ -11,7 +11,12 @@ module Nypl
           :zipcode => zipcode,
           :cross_street => xstreet,
           :lat => latitude,
-          :long => longitude
+          :long => longitude,
+          :_links => {
+            :self => {
+              :href => "/#{location.symbol}"
+            }
+          }
         }
 
       end
