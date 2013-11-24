@@ -2,7 +2,7 @@ require "sequel"
 require "sinatra"
 require "sinatra/jsonp"
 require "nypl/branches_api/room"
-require "nypl/branches_api/level"
+require "nypl/branches_api/floor"
 require "nypl/branches_api/location"
 require "nypl/branches_api/branch"
 require "nypl/branches_api/version"
@@ -27,21 +27,17 @@ module Nypl
 
       get %r{/([A-Z]+)$} do
         abbrev = params[:captures].first
-        branch = Nypl::BranchesApi::Location.
+        branch = Nypl::BranchesApi::Branch.
           find(:symbol => params[:captures].first)
         if branch.nil?
           raise Sinatra::NotFound
         end
-        jsonp Nypl::BranchesApi::Site[branch.sid].as_resource
+        jsonp branch.as_resource
       end
 
       get %r{/(([A-Z]+,)+[A-Z]+)$} do
-        x = {:vector => params[:captures].first.split(',')}
-        
-        sids = Nypl::BranchesApi::Location.
-          where(:symbol => params[:captures].first.split(',')).all.
-          map{ |s| s.sid }
-        branches = Nypl::BranchesApi::Site.where(:sid => sids)
+        branches = Nypl::BranchesApi::Branch.
+          where(:symbol => params[:captures].first.split(',')).all
         response = {
           :branches => branches.map { |s|
             s.as_resource          
