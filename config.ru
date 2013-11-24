@@ -1,5 +1,5 @@
 require "sequel"
-DB = Sequel.sqlite('locs.db')
+DB = Sequel.sqlite('apibranches.db')
 
 require "nypl/branches_api"
 

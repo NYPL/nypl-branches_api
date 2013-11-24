@@ -4,7 +4,7 @@ require "sinatra/jsonp"
 require "nypl/branches_api/room"
 require "nypl/branches_api/level"
 require "nypl/branches_api/location"
-require "nypl/branches_api/site"
+require "nypl/branches_api/branch"
 require "nypl/branches_api/version"
 
 module Nypl
@@ -13,13 +13,13 @@ module Nypl
       helpers Sinatra::Jsonp
 
       get '/' do
-        locations = Nypl::BranchesApi::Site.all 
+        branches = Nypl::BranchesApi::Branch.all 
         
         response = {
-          :branches => locations.map { |s|
-            s.as_resource
+          :branches => branches.map { |b|
+            b.as_resource
           },
-          :box => bounding_box(locations)
+          :box => bounding_box(branches)
         }
 
         jsonp response
