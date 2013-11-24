@@ -1,9 +1,9 @@
 require "sequel"
 require "sinatra"
 require "sinatra/jsonp"
+require "nypl/branches_api/location"
 require "nypl/branches_api/room"
 require "nypl/branches_api/floor"
-require "nypl/branches_api/location"
 require "nypl/branches_api/branch"
 require "nypl/branches_api/version"
 
