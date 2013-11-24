@@ -1,12 +1,12 @@
 module Nypl
   module BranchesApi
-    class Room < Sequel::Model(:locations_rooms)
+    class Room < Sequel::Model(:rooms)
       def as_resource
         r = { 
           :name => name
         }
 
-        if !description.empty?
+        if !description.nil?
           r[:description] = description
         end
 
