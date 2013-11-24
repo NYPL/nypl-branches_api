@@ -15,11 +15,11 @@ module Nypl
           :lat => latitude,
           :long => longitude,
           :floors => floors.map{|f| f.as_resource},
- #         :_links => {
- #           :self => {
- #             :href => "/#{location.symbol}"
- #           }
- #         }
+          :_links => {
+            :self => {
+              :href => "/#{symbol}"
+            }
+          }
         }
 
         if !location.nil?
