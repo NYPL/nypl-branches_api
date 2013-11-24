@@ -4,9 +4,10 @@ module Nypl
       one_to_many :rooms, :key => :floor_id, :class => Room
       def as_resource
         r = { 
-          :name => name,
-          :description => description
+          :name => name
         }
+
+        r[:description] = description if !description.nil?
 
         if !rooms.empty?
           r[:rooms] = rooms.map{|r| r.as_resource}
