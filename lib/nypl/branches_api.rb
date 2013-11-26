@@ -47,6 +47,47 @@ module Nypl
         jsonp response
       end
 
+      get '/borough' do
+        response = {
+          :_links => {
+            :self => {
+              :href => '/borough'
+            },
+            "Bronx" => {
+              :href => '/borough/bronx'
+            },
+            "Manhattan" => {
+              :href => '/borough/manhattan'
+            },
+            "Staten Island" => {
+              :href => '/borough/staten-island'
+            }
+          }
+        }
+        jsonp response
+      end
+
+      get %r{/borough/(manhattan|bronx|staten-island)$} do
+        borough = params[:captures].first
+        if borough.downcase == 'manhattan'
+          borough = 'new york'
+        elsif borough.downcase == 'staten-island'
+          borough = 'staten island'
+        end
+        branches = Nypl::BranchesApi::Branch.
+          where(Sequel.ilike(:city, borough)).all
+
+        response = {
+          :branches => branches.map { |s|
+            s.as_resource          
+          },
+          :box => bounding_box(branches)
+        }
+
+        jsonp response
+      end
+
+
       def bounding_box(c)
         lat = c.map{|o| o.latitude}
         long = c.map{|o| o.longitude}

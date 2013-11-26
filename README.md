@@ -55,6 +55,11 @@ You can then use curl or the like to retrieve the endpoints:
 	<td>/[branch abbreviation[,branch abbreviation[,...]]]
 	<td>http://localhost:9292/SASB,YV,DY</td>
   </tr>
+  <tr>
+    <td>By borough</td>
+	<td>/borough/[bronx|manhattan|staten-island]</td>
+	<td>http://localhost:9292/borough/staten-island</td>
+  </tr>
 </table>
 
 ## Contributing
