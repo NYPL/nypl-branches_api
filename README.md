@@ -1,27 +1,16 @@
 # Nypl::BranchesApi
 
-TODO: Write a gem description
+Experimental NYPL Branches API.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Nypl::BranchesApi is a Sinatra app. To run it locally you will need
+to clone the repository and run:
 
-    gem 'nypl-branches_api'
+    bundle install
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install nypl-branches_api
-
-## Database
-
-To run locally you'll need to set up a database. Load the schema and
-data from the SQL files in the `data` directory
-
-## Usage
+You can set up whatever database you like and load data from
+`data/branches.sql`
 
 Start the server with the command
 
