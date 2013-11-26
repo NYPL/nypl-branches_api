@@ -1,5 +1,7 @@
+require "pg"
 require "sequel"
-DB = Sequel.sqlite('apibranches.db')
+
+DB = Sequel.connect(ENV['DATABASE_URL'])
 
 require "nypl/branches_api"
 
